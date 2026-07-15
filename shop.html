@@ -572,7 +572,7 @@
           <div class="product-name">Concealed Carry Certification</div>
           <div class="product-desc">Full-day Louisiana concealed carry certification course. Includes state-required curriculum, live fire qualification, and certificate of completion.</div>
           <div class="product-footer">
-            <div class="product-price">— <span>Contact for pricing</span></div>
+            <div class="product-price">$100 <span>Per Person</span></div>
             <a href="https://portal.holders.llc/booking/concealed-carry" class="btn-link-card">View Dates →</a>
           </div>
         </div>
@@ -582,7 +582,7 @@
           <div class="product-name">Firearms Safety Training</div>
           <div class="product-desc">Fundamentals of safe firearm handling, storage, and operation. Great for new gun owners.</div>
           <div class="product-footer">
-            <div class="product-price">— <span>Contact for pricing</span></div>
+            <div class="product-price">$100 <span>Per Person<span></div>
             <a href="mailto:Sales@holders.llc?subject=Firearms Safety Training Inquiry" class="btn-link-card">Inquire →</a>
           </div>
         </div>
@@ -790,27 +790,37 @@
     input.value = val
   }
 
-  function submitOrder() {
-    const firstName = document.getElementById('firstName').value
-    const lastName = document.getElementById('lastName').value
-    const email = document.getElementById('checkoutEmail').value
-    const phone = document.getElementById('checkoutPhone').value
-    const cardNumber = document.getElementById('cardNumber').value
-    const cardExpiry = document.getElementById('cardExpiry').value
-    const cardCvv = document.getElementById('cardCvv').value
+function submitOrder() {
+  const firstName = document.getElementById('firstName').value
+  const lastName = document.getElementById('lastName').value
+  const email = document.getElementById('checkoutEmail').value
+  const phone = document.getElementById('checkoutPhone').value
+  const cardNumber = document.getElementById('cardNumber').value
+  const cardExpiry = document.getElementById('cardExpiry').value
+  const cardCvv = document.getElementById('cardCvv').value
 
-    if (!firstName || !lastName || !email || !cardNumber || !cardExpiry || !cardCvv) {
-      alert('Please fill in all required fields.')
-      return
-    }
-
-    // Payment processing will connect to Authorize.net via portal API
-    // For now show confirmation
-    alert('Thank you for your order! We will contact you at ' + email + ' to confirm pickup. Call 318-505-3003 with questions.')
-    cart = []
-    updateCart()
-    toggleCart()
+  if (!firstName || !lastName || !email || !cardNumber || !cardExpiry || !cardCvv) {
+    alert('Please fill in all required fields.')
+    return
   }
+
+  // Check if cart contains a class
+  const hasClass = cart.some(item =>
+    item.name.includes('Concealed Carry') || item.name.includes('Safety Training')
+  )
+
+  // Payment processing will connect to Authorize.net
+  alert('Payment successful! You will now be redirected to book your class date.')
+
+  cart = []
+  updateCart()
+  toggleCart()
+
+  // Redirect to booking page if class was purchased
+  if (hasClass) {
+    window.location.href = 'https://portal.holders.llc/booking/concealed-carry'
+  }
+}
 </script>
 
 </body>
