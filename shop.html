@@ -4,184 +4,427 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shop — Holders LLC</title>
-<meta name="description" content="Shop non-firearm merchandise from Holders LLC. Secure checkout coming soon.">
+<meta name="description" content="Shop Holders LLC for ammo, classes, services, and subscriptions. In-store pickup in Minden, Louisiana.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .shop-hero { padding: clamp(2.5rem, 6vw, 4rem) 0 2rem; }
-  .shop-hero p.lead { max-width: 56ch; }
-
-  .cart-btn {
-    position: relative;
-    background: none;
-    border: 1px solid var(--steel);
-    color: var(--paper);
-    border-radius: 2px;
-    padding: 0.55rem 0.8rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+  /* Shop-specific styles */
+  .shop-hero {
+    background: var(--surface, #111);
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .cart-btn:hover { border-color: var(--brass); color: var(--brass-bright); }
-  .cart-count {
-    background: var(--brass);
-    color: var(--charcoal);
-    font-family: var(--font-mono);
-    font-weight: 600;
+
+  .shop-section {
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .shop-section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    min-width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 3px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold, #c9a84c);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 0.5rem;
+  }
+
+  .section-desc {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
   }
 
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
   }
-  .product {
-    background: var(--surface-raised);
-    border: 1px solid var(--steel-line);
-    border-radius: 3px;
+
+  .product-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    transition: border-color 0.2s;
   }
-  .product .swatch {
-    height: 90px;
-    border-radius: 2px;
-    margin-bottom: 1rem;
-    background: repeating-linear-gradient(135deg, var(--steel-line), var(--steel-line) 8px, var(--surface) 8px, var(--surface) 16px);
-    border: 1px solid var(--steel-line);
-  }
-  .product h3 { margin-bottom: 0.25rem; color: var(--paper); }
-  .product .price {
-    font-family: var(--font-mono);
-    color: var(--brass);
-    margin: 0.4rem 0 1rem;
-  }
-  .product p { font-size: 0.9rem; margin-bottom: 1.25rem; }
-  .product .add-btn {
-    margin-top: auto;
-    font-family: var(--font-display);
-    letter-spacing: 0.06em;
+
+  .product-card:hover { border-color: rgba(201,168,76,0.4); }
+
+  .product-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-size: 0.8rem;
-    padding: 0.65rem 1rem;
-    border-radius: 2px;
-    border: 1px solid var(--steel);
-    background: transparent;
-    color: var(--paper);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    width: fit-content;
+  }
+
+  .badge-ammo { background: rgba(201,168,76,0.15); color: #c9a84c; border: 1px solid rgba(201,168,76,0.3); }
+  .badge-class { background: rgba(100,150,255,0.15); color: #7eaaff; border: 1px solid rgba(100,150,255,0.3); }
+  .badge-service { background: rgba(100,200,150,0.15); color: #6ecf9f; border: 1px solid rgba(100,200,150,0.3); }
+  .badge-subscription { background: rgba(180,100,255,0.15); color: #c47eff; border: 1px solid rgba(180,100,255,0.3); }
+
+  .product-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 0.4rem;
+  }
+
+  .product-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    flex: 1;
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  .product-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #c9a84c;
+  }
+
+  .product-price span {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    display: block;
+    line-height: 1;
+  }
+
+  .btn-add {
+    background: #c9a84c;
+    color: #111;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Inter', sans-serif;
   }
-  .product .add-btn:hover { border-color: var(--brass); color: var(--brass-bright); }
-  .product .add-btn.added { border-color: var(--brass); background: var(--brass); color: var(--charcoal); }
 
-  .cart-overlay {
-    position: fixed; inset: 0;
-    background: rgba(10, 12, 13, 0.6);
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s ease;
-    z-index: 90;
+  .btn-add:hover { background: #b8963e; }
+
+  .btn-link-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
   }
-  .cart-overlay.open { opacity: 1; pointer-events: auto; }
 
-  .cart-drawer {
-    position: fixed; top: 0; right: 0; bottom: 0;
-    width: min(380px, 90vw);
-    background: var(--surface);
-    border-left: 1px solid var(--steel-line);
-    z-index: 91;
-    transform: translateX(100%);
-    transition: transform 0.25s ease;
+  .btn-link-card:hover {
+    background: rgba(201,168,76,0.15);
+    border-color: rgba(201,168,76,0.4);
+    color: #c9a84c;
+  }
+
+  /* Subscription cards */
+  .sub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .sub-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.75rem;
     display: flex;
     flex-direction: column;
+    transition: border-color 0.2s;
   }
-  .cart-drawer.open { transform: translateX(0); }
 
-  .cart-head {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--steel-line);
+  .sub-card.featured {
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .sub-card:hover { border-color: rgba(201,168,76,0.4); }
+
+  .sub-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 0.25rem;
+  }
+
+  .sub-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #c9a84c;
+    margin: 0.75rem 0;
+  }
+
+  .sub-price small {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+
+  .sub-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    flex: 1;
+  }
+
+  .sub-features li {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
   }
-  .cart-head h3 { margin: 0; }
-  .cart-close {
-    background: none; border: none; color: var(--paper-muted);
-    font-size: 1.4rem; cursor: pointer; line-height: 1;
-  }
-  .cart-close:hover { color: var(--brass-bright); }
 
-  .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+  .sub-features li:last-child { border-bottom: none; }
+  .sub-features li::before { content: '✓'; color: #c9a84c; font-weight: 700; }
+
+  /* Cart sidebar */
+  .cart-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+  }
+
+  .cart-overlay.open { display: block; }
+
+  .cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 400px;
+    height: 100vh;
+    background: #1a1a1a;
+    border-left: 1px solid rgba(255,255,255,0.1);
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+  }
+
+  .cart-sidebar.open { right: 0; }
+
+  .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cart-header h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0;
+  }
+
+  .cart-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .cart-items { flex: 1; padding: 1rem 1.5rem; }
+
   .cart-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--steel-line);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .cart-item .info { flex: 1; }
-  .cart-item .info .name { color: var(--paper); font-size: 0.9rem; }
-  .cart-item .info .unit-price { color: var(--paper-muted); font-family: var(--font-mono); font-size: 0.78rem; }
-  .qty-controls { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); }
-  .qty-controls button {
-    width: 24px; height: 24px;
-    border: 1px solid var(--steel);
-    background: none; color: var(--paper);
-    cursor: pointer; border-radius: 2px;
-    line-height: 1;
-  }
-  .qty-controls button:hover { border-color: var(--brass); color: var(--brass-bright); }
-  .remove-btn {
-    background: none; border: none; color: var(--paper-muted);
-    font-size: 0.75rem; text-decoration: underline; cursor: pointer;
-    margin-left: 0.5rem;
-  }
-  .remove-btn:hover { color: var(--danger); }
 
-  .cart-empty { color: var(--paper-muted); font-size: 0.9rem; padding: 2rem 0; text-align: center; }
+  .cart-item-name { font-size: 0.9rem; color: #fff; }
+  .cart-item-price { font-size: 0.9rem; color: #c9a84c; font-weight: 600; }
+
+  .cart-item-remove {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .cart-empty {
+    text-align: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.9rem;
+    padding: 2rem 0;
+  }
 
   .cart-footer {
-    padding: 1.25rem 1.5rem 1.5rem;
-    border-top: 1px solid var(--steel-line);
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
   }
-  .cart-subtotal {
-    display: flex; justify-content: space-between;
-    font-family: var(--font-mono);
-    color: var(--paper);
+
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1rem;
+  }
+
+  .cart-total span { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+  .cart-total strong { color: #fff; font-size: 1.1rem; font-family: 'Oswald', sans-serif; }
+
+  /* Checkout form */
+  .checkout-form { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
+
+  .checkout-form h4 {
+    font-family: 'Oswald', sans-serif;
+    color: #fff;
+    margin: 0 0 1rem;
     font-size: 1rem;
   }
-  .checkout-btn {
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .form-full { margin-bottom: 0.75rem; }
+
+  .form-input {
     width: 100%;
-    text-align: center;
-    font-family: var(--font-display);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    padding: 0.85rem;
-    border-radius: 2px;
-    border: none;
-    background: var(--brass);
-    color: var(--charcoal);
-    cursor: not-allowed;
-    opacity: 0.7;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    color: #fff;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
   }
-  .checkout-note {
-    font-size: 0.78rem;
-    color: var(--paper-muted);
-    text-align: center;
-    margin-top: 0.6rem;
+
+  .form-input:focus {
+    outline: none;
+    border-color: rgba(201,168,76,0.5);
+  }
+
+  .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .card-logos {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-logo {
+    background: #fff;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .card-logo.visa { color: #1a1f71; }
+  .card-logo.mc { color: #eb001b; }
+  .card-logo.disc { color: #ff6600; }
+  .card-logo.amex { color: #007bc1; }
+
+  .ssl-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.75rem;
+  }
+
+  .pickup-notice {
+    background: rgba(100,200,150,0.1);
+    border: 1px solid rgba(100,200,150,0.2);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+    color: #6ecf9f;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  /* Cart button in nav */
+  .cart-btn {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: #c9a84c;
+    border-radius: 8px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .cart-count {
+    background: #c9a84c;
+    color: #111;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  @media (max-width: 600px) {
+    .cart-sidebar { width: 100%; right: -100%; }
+    .form-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -198,28 +441,252 @@
       <a href="shop.html" class="active">Shop</a>
       <a href="http://portal.holders.llc">Range Officer</a>
     </nav>
-    <div style="display:flex; align-items:center; gap:0.75rem;">
-      <a href="tel:3185053003" class="nav-phone">318-505-3003</a>
-      <button class="cart-btn" id="cart-toggle" aria-label="Open cart">
-        🛒 Cart <span class="cart-count" id="cart-count">0</span>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <button class="cart-btn" onclick="toggleCart()">
+        🛒 Cart <span class="cart-count" id="cartCount">0</span>
       </button>
+      <a href="tel:3185053003" class="nav-phone">318-505-3003</a>
     </div>
   </div>
   <div class="rim-rule"></div>
 </header>
 
+<!-- Cart Overlay -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Your Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">×</button>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Your cart is empty</div>
+  </div>
+
+  <div id="cartCheckout" style="display:none;">
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cartTotal">$0.00</strong>
+      </div>
+      <div class="pickup-notice">
+        📍 <span>In-store pickup only · 192 Austins Rd, Minden, LA 71055</span>
+      </div>
+    </div>
+
+    <div class="checkout-form">
+      <h4>Payment Details</h4>
+
+      <div class="card-logos">
+        <span class="card-logo visa">VISA</span>
+        <span class="card-logo mc">MC</span>
+        <span class="card-logo disc">DISC</span>
+        <span class="card-logo amex">AMEX</span>
+      </div>
+
+      <div class="ssl-badge">🔒 Secure checkout · HTTPS / SSL Encrypted</div>
+
+      <div class="form-row">
+        <input class="form-input" type="text" placeholder="First name" id="firstName">
+        <input class="form-input" type="text" placeholder="Last name" id="lastName">
+      </div>
+      <div class="form-full">
+        <input class="form-input" type="email" placeholder="Email address" id="checkoutEmail" style="width:100%">
+      </div>
+      <div class="form-full">
+        <input class="form-input" type="tel" placeholder="Phone number" id="checkoutPhone" style="width:100%">
+      </div>
+      <div class="form-full">
+        <input class="form-input" type="text" placeholder="Card number" id="cardNumber" maxlength="19" oninput="formatCard(this)" style="width:100%;font-family:'JetBrains Mono',monospace;">
+      </div>
+      <div class="form-row">
+        <input class="form-input" type="text" placeholder="MM/YY" id="cardExpiry" maxlength="5" oninput="formatExpiry(this)" style="font-family:'JetBrains Mono',monospace;">
+        <input class="form-input" type="text" placeholder="CVV" id="cardCvv" maxlength="4" style="font-family:'JetBrains Mono',monospace;">
+      </div>
+
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin:0.5rem 0 1rem;">
+        Contact: Sales@holders.llc · 318-505-3003 · 192 Austins Rd, Minden, LA 71055
+      </p>
+
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="submitOrder()">
+        Complete Order
+      </button>
+    </div>
+  </div>
+</div>
+
 <main>
+  <!-- Shop Hero -->
   <section class="shop-hero">
     <div class="container">
-      <span class="eyebrow">Shop</span>
-      <h1>Non-firearm merchandise.</h1>
-      <p class="lead">Add items to your cart now — secure checkout is being finalized with our payment processor and will be live shortly.</p>
+      <span class="eyebrow">Minden, Louisiana · In-Store Pickup</span>
+      <h1 style="font-family:'Oswald',sans-serif;font-size:2.5rem;font-weight:700;color:#fff;margin:0.5rem 0;">Shop Holders LLC</h1>
+      <p style="color:rgba(255,255,255,0.5);max-width:500px;">Ammo, classes, services, and subscriptions. All orders are in-store pickup at 192 Austins Rd, Minden, LA 71055.</p>
     </div>
   </section>
 
-  <section>
+  <!-- AMMO -->
+  <section class="shop-section">
     <div class="container">
-      <div class="product-grid" id="product-grid"></div>
+      <div class="section-label">In Stock</div>
+      <h2 class="section-title">Ammunition</h2>
+      <p class="section-desc">Class-ready ammo available for in-store pickup. Call ahead to confirm availability.</p>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <span class="product-badge badge-ammo">Ammo · 9mm</span>
+          <div class="product-name">9mm Luger — 50 Rounds</div>
+          <div class="product-desc">Range-ready 9mm ammunition. Ideal for concealed carry class qualification and practice. In-store pickup only.</div>
+          <div class="product-footer">
+            <div class="product-price">$25.00 <span>per 50rd box</span></div>
+            <button class="btn-add" onclick="addToCart('9mm Luger 50rd', 25.00)">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-badge badge-ammo">Ammo · .22 LR</span>
+          <div class="product-name">.22 LR — 200 Rounds</div>
+          <div class="product-desc">Perfect for training and class use. Low recoil, great for new shooters. In-store pickup only.</div>
+          <div class="product-footer">
+            <div class="product-price">$20.00 <span>per 200rd box</span></div>
+            <button class="btn-add" onclick="addToCart('.22 LR 200rd', 20.00)">Add to Cart</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CLASSES -->
+  <section class="shop-section">
+    <div class="container">
+      <div class="section-label">Training</div>
+      <h2 class="section-title">Classes</h2>
+      <p class="section-desc">Concealed carry certification and firearms training from a licensed Louisiana instructor.</p>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <span class="product-badge badge-class">Class · Full Day</span>
+          <div class="product-name">Concealed Carry Certification</div>
+          <div class="product-desc">Full-day Louisiana concealed carry certification course. Includes state-required curriculum, live fire qualification, and certificate of completion.</div>
+          <div class="product-footer">
+            <div class="product-price">— <span>Contact for pricing</span></div>
+            <a href="https://portal.holders.llc/booking/concealed-carry" class="btn-link-card">View Dates →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-badge badge-class">Class · Safety</span>
+          <div class="product-name">Firearms Safety Training</div>
+          <div class="product-desc">Fundamentals of safe firearm handling, storage, and operation. Great for new gun owners.</div>
+          <div class="product-footer">
+            <div class="product-price">— <span>Contact for pricing</span></div>
+            <a href="mailto:Sales@holders.llc?subject=Firearms Safety Training Inquiry" class="btn-link-card">Inquire →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="shop-section">
+    <div class="container">
+      <div class="section-label">Gunsmithing</div>
+      <h2 class="section-title">Services</h2>
+      <p class="section-desc">Professional gunsmithing and inspection services. Book online or call ahead.</p>
+      <div class="product-grid">
+
+        <div class="product-card">
+          <span class="product-badge badge-service">Service · Inspection</span>
+          <div class="product-name">Firearm Inspection</div>
+          <div class="product-desc">Full safety and function inspection by a certified gunsmith. Tue–Fri 5–7PM, Saturday 11AM–7PM. Free to book.</div>
+          <div class="product-footer">
+            <div class="product-price">Free <span>book online</span></div>
+            <a href="https://portal.holders.llc/booking/inspection" class="btn-link-card">Book Now →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-badge badge-service">Service · Repair</span>
+          <div class="product-name">Drop-Off Repair</div>
+          <div class="product-desc">Leave your firearm for repair. We assess, quote, and contact you before any work begins. Timeline depends on repair.</div>
+          <div class="product-footer">
+            <div class="product-price">— <span>quote on assessment</span></div>
+            <a href="https://portal.holders.llc/booking/dropoff" class="btn-link-card">Schedule →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIPTIONS -->
+  <section class="shop-section">
+    <div class="container">
+      <div class="section-label">Holders App</div>
+      <h2 class="section-title">Subscriptions</h2>
+      <p class="section-desc">Track your collection, log maintenance, manage range sessions, and more.</p>
+      <div class="sub-grid">
+
+        <div class="sub-card">
+          <span class="product-badge badge-subscription">Plan · Free</span>
+          <div class="sub-name">Free</div>
+          <div class="sub-price">$0 <small>/ forever</small></div>
+          <ul class="sub-features">
+            <li>Up to 3 firearms</li>
+            <li>Basic maintenance logging</li>
+            <li>Dashboard overview</li>
+          </ul>
+          <a href="https://portal.holders.llc/auth/signup" class="btn btn-ghost" style="text-align:center;">Get Started</a>
+        </div>
+
+        <div class="sub-card">
+          <span class="product-badge badge-subscription">Plan · Basic</span>
+          <div class="sub-name">Basic</div>
+          <div class="sub-price">$4.99 <small>/ month</small></div>
+          <ul class="sub-features">
+            <li>Unlimited firearms</li>
+            <li>Range session logging</li>
+            <li>Document storage</li>
+            <li>Reminders & alerts</li>
+            <li>Inventory valuation</li>
+          </ul>
+          <a href="https://portal.holders.llc/pricing" class="btn btn-ghost" style="text-align:center;">Subscribe</a>
+        </div>
+
+        <div class="sub-card featured">
+          <span class="product-badge badge-subscription">Plan · Pro</span>
+          <div class="sub-name">Pro ⭐</div>
+          <div class="sub-price">$9.99 <small>/ month</small></div>
+          <ul class="sub-features">
+            <li>Everything in Basic</li>
+            <li>PDF report generation</li>
+            <li>AI Maintenance Assistant</li>
+            <li>Priority support</li>
+            <li>Early feature access</li>
+          </ul>
+          <a href="https://portal.holders.llc/pricing" class="btn btn-primary" style="text-align:center;">Subscribe</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section class="alt">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="mt-0">Questions about an order?</h2>
+        <p>Call or email us and we'll get back to you quickly.</p>
+      </div>
+      <p class="footer-mono">Sales@holders.llc &nbsp;·&nbsp; 318-505-3003 &nbsp;·&nbsp; 192 Austins Rd, Minden, LA 71055</p>
+      <div class="hero-actions">
+        <a href="tel:3185053003" class="btn btn-primary">Call the Shop</a>
+        <a href="mailto:Sales@holders.llc" class="btn btn-ghost">Email Us</a>
+      </div>
     </div>
   </section>
 </main>
@@ -232,6 +699,7 @@
         <p class="footer-mono">Your trusted gun shop partner.</p>
         <p class="footer-mono">318-505-3003</p>
         <p class="footer-mono">192 Austins Rd, Minden, LA 71055</p>
+        <p class="footer-mono">Sales@holders.llc</p>
       </div>
       <div>
         <h4>Site</h4>
@@ -240,6 +708,7 @@
           <li><a href="services.html">Services</a></li>
           <li><a href="concealed-carry.html">Concealed Carry</a></li>
           <li><a href="shop.html">Shop</a></li>
+          <li><a href="https://portal.holders.llc/booking">Schedule Appointment</a></li>
           <li><a href="http://portal.holders.llc">Range Officer Portal</a></li>
         </ul>
       </div>
@@ -260,160 +729,88 @@
   </div>
 </footer>
 
-<div class="cart-overlay" id="cart-overlay"></div>
-<aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart">
-  <div class="cart-head">
-    <h3>Your Cart</h3>
-    <button class="cart-close" id="cart-close" aria-label="Close cart">&times;</button>
-  </div>
-  <div class="cart-items" id="cart-items"></div>
-  <div class="cart-footer">
-    <div class="cart-subtotal">
-      <span>Subtotal</span>
-      <span id="cart-subtotal">$0.00</span>
-    </div>
-    <button class="checkout-btn" disabled>Checkout — Coming Soon</button>
-    <p class="checkout-note">Secure online checkout is being set up with our payment processor. Call 318-505-3003 to complete an order now.</p>
-  </div>
-</aside>
-
 <script>
-  const PRODUCTS = [
-    { id: "holster-owb", name: "OWB Kydex Holster", price: 64.99, desc: "Hand-fitted outside-the-waistband holster, various models." },
-    { id: "cleaning-kit", name: "Universal Cleaning Kit", price: 34.99, desc: "Full cleaning kit for handguns, rifles, and shotguns." },
-    { id: "range-bag", name: "Range Bag", price: 44.99, desc: "Padded range bag with magazine pockets and ammo compartments." },
-    { id: "mag-pouch", name: "Dual Mag Pouch", price: 22.99, desc: "Kydex dual magazine carrier, IWB/OWB compatible." }
-  ];
+  let cart = []
 
-  const STORAGE_KEY = "holders_cart_v1";
+  function addToCart(name, price) {
+    cart.push({ name, price, id: Date.now() })
+    updateCart()
+    openCart()
+  }
 
-  function loadCart() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch (e) {
-      return {};
+  function removeFromCart(id) {
+    cart = cart.filter(item => item.id !== id)
+    updateCart()
+  }
+
+  function updateCart() {
+    const count = cart.length
+    document.getElementById('cartCount').textContent = count
+
+    const itemsEl = document.getElementById('cartItems')
+    const checkoutEl = document.getElementById('cartCheckout')
+
+    if (count === 0) {
+      itemsEl.innerHTML = '<div class="cart-empty">Your cart is empty</div>'
+      checkoutEl.style.display = 'none'
+      return
     }
-  }
 
-  function saveCart(cart) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-  }
-
-  let cart = loadCart();
-
-  function money(n) {
-    return "$" + n.toFixed(2);
-  }
-
-  function renderProducts() {
-    const grid = document.getElementById("product-grid");
-    grid.innerHTML = PRODUCTS.map(p => `
-      <div class="product">
-        <div class="swatch"></div>
-        <h3>${p.name}</h3>
-        <p>${p.desc}</p>
-        <div class="price">${money(p.price)}</div>
-        <button class="add-btn" data-id="${p.id}">Add to Cart</button>
+    checkoutEl.style.display = 'block'
+    itemsEl.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <span class="cart-item-name">${item.name}</span>
+        <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">×</button>
       </div>
-    `).join("");
+    `).join('')
 
-    grid.querySelectorAll(".add-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        cart[id] = (cart[id] || 0) + 1;
-        saveCart(cart);
-        renderCart();
-        btn.textContent = "Added ✓";
-        btn.classList.add("added");
-        setTimeout(() => {
-          btn.textContent = "Add to Cart";
-          btn.classList.remove("added");
-        }, 900);
-      });
-    });
+    const total = cart.reduce((sum, item) => sum + item.price, 0)
+    document.getElementById('cartTotal').textContent = '$' + total.toFixed(2)
   }
 
-  function renderCart() {
-    const itemsEl = document.getElementById("cart-items");
-    const countEl = document.getElementById("cart-count");
-    const subtotalEl = document.getElementById("cart-subtotal");
+  function toggleCart() {
+    document.getElementById('cartSidebar').classList.toggle('open')
+    document.getElementById('cartOverlay').classList.toggle('open')
+  }
 
-    const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
-    const totalCount = entries.reduce((sum, [, qty]) => sum + qty, 0);
-    countEl.textContent = totalCount;
+  function openCart() {
+    document.getElementById('cartSidebar').classList.add('open')
+    document.getElementById('cartOverlay').classList.add('open')
+  }
 
-    if (entries.length === 0) {
-      itemsEl.innerHTML = `<div class="cart-empty">Your cart is empty.</div>`;
-      subtotalEl.textContent = money(0);
-      return;
+  function formatCard(input) {
+    let val = input.value.replace(/\D/g, '').substring(0, 16)
+    input.value = val.replace(/(\d{4})/g, '$1 ').trim()
+  }
+
+  function formatExpiry(input) {
+    let val = input.value.replace(/\D/g, '')
+    if (val.length >= 2) val = val.substring(0,2) + '/' + val.substring(2,4)
+    input.value = val
+  }
+
+  function submitOrder() {
+    const firstName = document.getElementById('firstName').value
+    const lastName = document.getElementById('lastName').value
+    const email = document.getElementById('checkoutEmail').value
+    const phone = document.getElementById('checkoutPhone').value
+    const cardNumber = document.getElementById('cardNumber').value
+    const cardExpiry = document.getElementById('cardExpiry').value
+    const cardCvv = document.getElementById('cardCvv').value
+
+    if (!firstName || !lastName || !email || !cardNumber || !cardExpiry || !cardCvv) {
+      alert('Please fill in all required fields.')
+      return
     }
 
-    let subtotal = 0;
-    itemsEl.innerHTML = entries.map(([id, qty]) => {
-      const product = PRODUCTS.find(p => p.id === id);
-      const lineTotal = product.price * qty;
-      subtotal += lineTotal;
-      return `
-        <div class="cart-item" data-id="${id}">
-          <div class="info">
-            <div class="name">${product.name}</div>
-            <div class="unit-price">${money(product.price)} each</div>
-          </div>
-          <div class="qty-controls">
-            <button class="qty-minus" data-id="${id}">−</button>
-            <span>${qty}</span>
-            <button class="qty-plus" data-id="${id}">+</button>
-          </div>
-          <button class="remove-btn" data-id="${id}">Remove</button>
-        </div>
-      `;
-    }).join("");
-
-    subtotalEl.textContent = money(subtotal);
-
-    itemsEl.querySelectorAll(".qty-plus").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        cart[id] = (cart[id] || 0) + 1;
-        saveCart(cart);
-        renderCart();
-      });
-    });
-    itemsEl.querySelectorAll(".qty-minus").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        cart[id] = Math.max(0, (cart[id] || 0) - 1);
-        if (cart[id] === 0) delete cart[id];
-        saveCart(cart);
-        renderCart();
-      });
-    });
-    itemsEl.querySelectorAll(".remove-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.getAttribute("data-id");
-        delete cart[id];
-        saveCart(cart);
-        renderCart();
-      });
-    });
+    // Payment processing will connect to Authorize.net via portal API
+    // For now show confirmation
+    alert('Thank you for your order! We will contact you at ' + email + ' to confirm pickup. Call 318-505-3003 with questions.')
+    cart = []
+    updateCart()
+    toggleCart()
   }
-
-  const overlay = document.getElementById("cart-overlay");
-  const drawer = document.getElementById("cart-drawer");
-  document.getElementById("cart-toggle").addEventListener("click", () => {
-    overlay.classList.add("open");
-    drawer.classList.add("open");
-  });
-  function closeCart() {
-    overlay.classList.remove("open");
-    drawer.classList.remove("open");
-  }
-  document.getElementById("cart-close").addEventListener("click", closeCart);
-  overlay.addEventListener("click", closeCart);
-
-  renderProducts();
-  renderCart();
 </script>
 
 </body>
